@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * This script is used to create a new Radix Dapp project by cloning a template.
+ * This script is used to create a new Radix dApp project by cloning a template.
  * It prompts the user to enter a project name and select a template, then uses degit to clone the selected template.
  * After cloning, it installs the necessary dependencies and provides instructions on how to start the app.
  */
