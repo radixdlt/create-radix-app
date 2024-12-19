@@ -1,6 +1,9 @@
 name: Publish NPM create-radix-app
 
 on:
+  push:
+    branches:
+      - DO-2916
   release:
     types:
       - released
