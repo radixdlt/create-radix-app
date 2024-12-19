@@ -1,25 +1,25 @@
 {
   "name": "@radixdlt/create-radix-app",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
-  "description": "A new project scaffolding tool for quickly bootstrapping a new Radix dApp project.",
+  "description": "A new project scaffolding tool for quickly bootstrapping a new Radix App project.",
   "main": "bin/index.js",
   "bin": {
-    "create-radix-dapp": "bin/index.js"
+    "create-radix-app": "bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/radixdlt/create-radix-dapp.git"
+    "url": "git+https://github.com/radixdlt/create-radix-app.git"
   },
   "author": "Bryan Sharpley",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/radixdlt/create-radix-dapp/issues"
+    "url": "https://github.com/radixdlt/create-radix-app/issues"
   },
-  "homepage": "https://github.com/radixdlt/create-radix-dapp#readme",
+  "homepage": "https://github.com/radixdlt/create-radix-app#readme",
   "dependencies": {
     "degit": "^2.8.4",
     "inquirer": "^9.2.12"
