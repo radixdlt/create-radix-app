@@ -1,6 +1,6 @@
 {
   "name": "create-radix-app",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "A new project scaffolding tool for quickly bootstrapping a new Radix dApp project.",
   "main": "bin/index.js",
