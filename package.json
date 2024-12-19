@@ -14,7 +14,6 @@
     "type": "git",
     "url": "git+https://github.com/radixdlt/create-radix-app.git"
   },
-  "author": "Bryan Sharpley",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/radixdlt/create-radix-app/issues"
