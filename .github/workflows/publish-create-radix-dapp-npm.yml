@@ -1,0 +1,66 @@
+name: Publish NPM create-radix-dapp
+
+on:
+  push:
+    branches:
+      - DO-2916
+
+  release:
+    types:
+      - released
+
+
+jobs:
+  publish-create-radix-dapp-npmjs:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ./
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: RDXWorks-actions/checkout@main
+      - uses: ./.github/actions/fetch-secrets
+        with:
+          role_name: "arn:aws:iam::308190735829:role/gh-create-radix-dapp-secrets-read-access"
+          app_name: "create-radix-dapp"
+          step_name: "publish-create-radix-dapp-sdk-npmjs"
+          secret_prefix: "NPM"
+          secret_name: "github-actions/radixdlt/create-radix-dapp/npm-publishing-secret"
+          parse_json: true
+      - name: Use Node.js
+        uses: RDXWorks-actions/setup-node@main
+        with:
+          node-version: "18.x"
+          registry-url: "https://registry.npmjs.org"
+        env:
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+      - run: cat $NPM_CONFIG_USERCONFIG
+      # - name: Build create-radix-dapp
+      #   env:
+      #     VITE_SDK_VERSION: ${{ github.event.inputs.package_version_number || steps.setup_tags.outputs.version-tag }}
+      #   run: |
+      #     npm ci
+      #     npm run build
+      #     npm run test
+
+      - name: Setup tags for npm
+        id: setup_tags
+        uses: ./.github/actions/set-variables
+        with:
+          github_event_name: ${{ github.event_name }}
+          github_action_name: ${{ github.event.action}}
+
+      # - name: Update package.json version
+      #   uses: RDXWorks-actions/action-set-json-field@master
+      #   with:
+      #     file: ./package.json
+      #     field: version
+      #     value: ${{ github.event.inputs.package_version_number || steps.setup_tags.outputs.version-tag }} ##TODO: Change for actual version
+
+      - run: |
+          npm config set access public
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
