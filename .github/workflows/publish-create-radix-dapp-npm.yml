@@ -1,10 +1,6 @@
 name: Publish NPM create-radix-app
 
 on:
-  push:
-    branches:
-      - DO-2916
-
   release:
     types:
       - released
@@ -37,21 +33,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
       - run: cat $NPM_CONFIG_USERCONFIG
-      # - name: Build create-radix-dapp
-      #   env:
-      #     VITE_SDK_VERSION: ${{ github.event.inputs.package_version_number || steps.setup_tags.outputs.version-tag }}
-      #   run: |
-      #     npm ci
-      #     npm run build
-      #     npm run test
-
-      # - name: Update package.json version
-      #   uses: RDXWorks-actions/action-set-json-field@master
-      #   with:
-      #     file: ./package.json
-      #     field: version
-      #     value: ${{ github.event.inputs.package_version_number || steps.setup_tags.outputs.version-tag }} ##TODO: Change for actual version
-
       - run: |
           npm config set access public
           npm publish
