@@ -23,11 +23,11 @@ jobs:
       - uses: RDXWorks-actions/checkout@main
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
-          role_name: "arn:aws:iam::308190735829:role/gh-create-radix-dapp-secrets-read-access"
+          role_name: "arn:aws:iam::308190735829:role/gh-create-radix-app-secrets-read-access"
           app_name: "create-radix-dapp"
           step_name: "publish-create-radix-dapp-sdk-npmjs"
           secret_prefix: "NPM"
-          secret_name: "github-actions/radixdlt/create-radix-dapp/npm-publishing-secret"
+          secret_name: "github-actions/radixdlt/create-radix-app/npm-publishing-secret"
           parse_json: true
       - name: Use Node.js
         uses: RDXWorks-actions/setup-node@main
