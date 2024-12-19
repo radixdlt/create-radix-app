@@ -21,7 +21,7 @@ jobs:
       contents: read
     steps:
       - uses: RDXWorks-actions/checkout@main
-      - uses: ./.github/actions/fetch-secrets
+      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
           role_name: "arn:aws:iam::308190735829:role/gh-create-radix-dapp-secrets-read-access"
           app_name: "create-radix-dapp"
@@ -44,13 +44,6 @@ jobs:
       #     npm ci
       #     npm run build
       #     npm run test
-
-      - name: Setup tags for npm
-        id: setup_tags
-        uses: ./.github/actions/set-variables
-        with:
-          github_event_name: ${{ github.event_name }}
-          github_action_name: ${{ github.event.action}}
 
       # - name: Update package.json version
       #   uses: RDXWorks-actions/action-set-json-field@master
