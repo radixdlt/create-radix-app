@@ -9,6 +9,7 @@
 // Import dependencies
 import inquirer from "inquirer";
 import degit from "degit";
+import ora from "ora";
 import { exec } from "child_process";
 
 // Get the template path
@@ -99,7 +100,6 @@ inquirer
 
     const templatePath = `${basePath}${answers.template.value}`;
     // console.log("answers", answers);
-    console.log(`Cloning template from ${templatePath}...`);
     const emitter = degit(templatePath, {
       cache: false,
       force: true,
@@ -108,46 +108,50 @@ inquirer
     // emitter.on("info", (info) => {
     //   console.log(info.message);
     // });
+    const cloneSpinner = ora().start(`Cloning template ${templatePath}...`);
+    const installSpinner = ora();
     emitter
       .clone(answers.projectName)
       .then(() => {
         // Green success message
-        console.log("\x1b[32mTemplate created successfully.\x1b[0m");
-        console.log("Installing dependencies...");
+        cloneSpinner.succeed("\x1b[32mTemplate created successfully.\x1b[0m");
+      })
+      .catch((err) => {
+        cloneSpinner.fail(`Failed to clone template:  ${err.message}`);
+      })
+      .then(() => {
+        installSpinner.start("Installing dependencies...");
         if (answers.template.clientDir === "root-dir") {
           exec(
             `cd ${answers.projectName} && npm install --loglevel=error`,
-            postInstallCommands(answers)
+            postInstallCommands(answers, installSpinner)
           );
         }
         if (answers.template.clientDir === "client-dir") {
           exec(
             `cd ${answers.projectName}/client && npm install --loglevel=error`,
-            postInstallCommands(answers)
+            postInstallCommands(answers, installSpinner)
           );
         }
-      })
-      .catch((err) => {
-        console.error("Failed to clone template:", err);
       });
   });
 
-const postInstallCommands = (answers) => (error, _stdout, stderr) => {
-  if (error) {
-    console.error(`Error installing dependencies: ${error.message}`);
-    return;
-  }
-
-  if (stderr) {
-    console.error(`Error installing dependencies: ${stderr}`);
-    return;
-  }
-  console.log(
+const postInstallCommands =
+  (answers, installSpinner) => (error, _stdout, stderr) => {
+    if (error) {
+      installSpinner.fail(`Error installing dependencies: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      installSpinner.fail(`Error installing dependencies: ${stderr}`);
+      return;
+    }
     // Green success message
-    "\x1b[32mDependencies installed successfully.\x1b[0m"
-  );
-  console.log(
-    // Yellow instruction message
-    `To start the app, run: \x1b[33mcd ${answers.projectName} && npm run dev\x1b[0m`
-  );
-};
+    installSpinner.succeed(
+      "\x1b[32mDependencies installed successfully.\x1b[0m"
+    );
+    console.log(
+      // Yellow instruction message
+      `\nTo start the app run: \x1b[33mcd ${answers.projectName} && npm run dev\x1b[0m`
+    );
+  };
