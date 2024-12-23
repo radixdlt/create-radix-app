@@ -25,7 +25,8 @@ npx create-radix-app@latest
 
 ### Creating Project & Installing Dependencies
 
-![Creating Project](bin/assets/build-install-deps.png)
+![Creating Project](bin/assets/build-install-deps1.png)
+![Created Project](bin/assets/build-install-deps2.png)
 
 ### Start the Development Server
 
